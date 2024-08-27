@@ -25,7 +25,7 @@ public class Inventory {
             message = "name must be of 3 to 12 length with no special characters")
     private String name;
 
-    @Pattern(regexp = "^[a-zA-Z0-9()\\s]{15,}$",
+    @Pattern(regexp = "^[a-zA-Z0-9()\\s.']{15,}$",
             message = "Description must be of atleast 15 length.")
     private String about;
     private int price;
