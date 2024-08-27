@@ -70,10 +70,14 @@ public class CustomerService {
 
         if (_cst.isPresent()) {
             Customer existingCst = _cst.get();
-            existingCst.setEmail(cst.getEmail());
-            existingCst.setFirstname(cst.getFirstname());
-            existingCst.setLastname(cst.getLastname());
-            existingCst.setPhone_no(cst.getPhone_no());
+            if(cst.getEmail()!=null)
+                existingCst.setEmail(cst.getEmail());
+            if(cst.getFirstname()!=null)
+                existingCst.setFirstname(cst.getFirstname());
+            if(cst.getLastname()!=null)
+                existingCst.setLastname(cst.getLastname());
+            if(cst.getPhone_no()!=null)
+                existingCst.setPhone_no(cst.getPhone_no());
 
             CstRepository.save(existingCst);
             return new ResponseEntity<>("Customer was updated successfully.", HttpStatus.OK);

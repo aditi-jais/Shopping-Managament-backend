@@ -64,9 +64,12 @@ public class SellerService {
 
         if (_sel.isPresent()) {
             Seller existingSeller = _sel.get();
-            existingSeller.setFirstname(sel.getFirstname());
-            existingSeller.setLastname(sel.getLastname());
-            existingSeller.setEmail(sel.getEmail());
+            if(sel.getFirstname()!=null)
+                existingSeller.setFirstname(sel.getFirstname());
+            if(sel.getLastname()!=null)
+                existingSeller.setLastname(sel.getLastname());
+            if(sel.getEmail()!=null)
+                existingSeller.setEmail(sel.getEmail());
 
             SelRepository.save(existingSeller);
             return new ResponseEntity<>("Seller was updated successfully.", HttpStatus.OK);

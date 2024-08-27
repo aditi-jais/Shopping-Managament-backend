@@ -91,11 +91,14 @@ public class AddressService {
 
         if (_add.isPresent()) {
             Address add1 = _add.get();
-            add1.setAddressId(add.getAddressId());
-            add1.setStreet(add.getStreet());
-            add1.setState(add.getState());
-            add1.setCountry(add.getCountry());
-            add1.setLandmark(add.getLandmark());
+            if(add.getStreet()!=null)
+                add1.setStreet(add.getStreet());
+            if(add.getState()!=null)
+                add1.setState(add.getState());
+            if(add.getCountry()!=null)
+                add1.setCountry(add.getCountry());
+            if(add.getLandmark()!=null)
+                add1.setLandmark(add.getLandmark());
 
             AddRepository.save(add1);
             return new ResponseEntity<>("Address was updated successfully.", HttpStatus.OK);
