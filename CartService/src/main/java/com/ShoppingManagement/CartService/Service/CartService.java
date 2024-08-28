@@ -1,29 +1,28 @@
 package com.ShoppingManagement.CartService.Service;
 
+import com.ShoppingManagement.CartService.Model.Cart;
 import com.ShoppingManagement.CartService.Model.Customer;
 import com.ShoppingManagement.CartService.Model.Inventory;
 import com.ShoppingManagement.CartService.Repository.CartRepository;
-import com.ShoppingManagement.CartService.Model.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
 
-@RestController
+@Service
 public class CartService {
     @Autowired
     CartRepository CrtRepository;
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-    public ResponseEntity<List<Cart>> getAllCart()
-    {
+    public ResponseEntity<List<Cart>> getAllCart() {
         try {
             List<Cart> crt = new ArrayList<Cart>();
 
@@ -38,13 +37,14 @@ public class CartService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    public ResponseEntity<Cart> getCartById( int id) {
+
+    public ResponseEntity<Cart> getCartById(int id) {
         Optional<Cart> crt = CrtRepository.findById(id);
 
         if (crt.isPresent()) {
             return new ResponseEntity<>(crt.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -66,11 +66,6 @@ public class CartService {
                 }
                 inventories.add(inventory);
             }
-
-
-
-
-
             cart.setCartId(crt.getCartId());
             cart.setCst(cst);
             cart.setInv(inventories);
@@ -84,9 +79,7 @@ public class CartService {
         }
     }
 
-
-
-    public ResponseEntity<String> AddToCart(int id,int[] invId) {
+    public ResponseEntity<String> AddToCart(int id, int[] invId) {
         Optional<Cart> _crt = CrtRepository.findById(id);
 
         if (_crt.isPresent()) {
@@ -98,8 +91,7 @@ public class CartService {
                 }
                 inventories.add(inventory);
             }
-            for(Inventory i:_crt.get().getInv())
-            {
+            for (Inventory i : _crt.get().getInv()) {
                 inventories.add(i);
             }
             _crt.get().setInv(inventories);
@@ -110,6 +102,7 @@ public class CartService {
             return new ResponseEntity<>("Cannot find Cart with id=" + id, HttpStatus.NOT_FOUND);
         }
     }
+
     public ResponseEntity<String> DeletefromCart(int id, int[] invIdToRemove) {
         Optional<Cart> optionalCart = CrtRepository.findById(id);
 
@@ -117,18 +110,12 @@ public class CartService {
             Cart cart = optionalCart.get();
             List<Inventory> existingInventories = cart.getInv();
             List<Inventory> updatedInventories = new ArrayList<>();
-
-            // Create a Set of IDs to remove for faster lookup
             Set<Integer> idsToRemove = Arrays.stream(invIdToRemove).boxed().collect(Collectors.toSet());
-
-            // Filter out the inventories to be removed
             for (Inventory inv : existingInventories) {
                 if (!idsToRemove.contains(inv.getInvId())) {
                     updatedInventories.add(inv);
                 }
             }
-
-            // Update the cart with the filtered inventories
             cart.setInv(updatedInventories);
             CrtRepository.save(cart);
 
@@ -140,18 +127,19 @@ public class CartService {
 
 
     public ResponseEntity<String> deleteCart(int id) {
-        try{
-        Optional<Cart> cst = CrtRepository.findById(id);
+        try {
+            Optional<Cart> cst = CrtRepository.findById(id);
 
-        if (cst.isPresent()) {
-            CrtRepository.deleteById(id);
-            return new ResponseEntity<>("Cart was deleted successfully.", HttpStatus.OK);
-        }
-        return new ResponseEntity<>("Cannot find Cart with id=" + id, HttpStatus.OK);
-    } catch (Exception e) {
+            if (cst.isPresent()) {
+                CrtRepository.deleteById(id);
+                return new ResponseEntity<>("Cart was deleted successfully.", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Cannot find Cart with id=" + id, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>("Cannot delete Cart.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     public ResponseEntity<String> deleteAllCart() {
         try {
             long numRows = CrtRepository.count();

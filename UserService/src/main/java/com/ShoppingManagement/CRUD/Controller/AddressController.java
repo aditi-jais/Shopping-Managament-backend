@@ -1,9 +1,7 @@
 package com.ShoppingManagement.CRUD.Controller;
 
 import com.ShoppingManagement.CRUD.Model.Address;
-import com.ShoppingManagement.CRUD.Model.Customer;
 import com.ShoppingManagement.CRUD.Service.AddressService;
-import com.ShoppingManagement.CRUD.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

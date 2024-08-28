@@ -1,15 +1,12 @@
 package com.ShoppingManagement.CartService.Service;
 
-import com.ShoppingManagement.CartService.Model.Customer;
 import com.ShoppingManagement.CartService.Model.Inventory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-//@Service
+@Service
 public class IsInventory {
-//    private RestTemplate restTemplate;
-
     private final WebClient.Builder webClientBuilder;
 
     @Autowired
@@ -20,10 +17,8 @@ public class IsInventory {
     private Inventory s;
     public Inventory checking(int id)
     {
-//        RestTemplate restTemplate = new RestTemplate();
-        try{
 
-//            s=restTemplate.getForObject("http://localhost:8081/inventory/"+ id,Inventory.class);
+        try{
 
             s = webClientBuilder.build()
                     .get()
@@ -32,10 +27,10 @@ public class IsInventory {
                     .bodyToMono(Inventory.class)
                     .block();
 
-//    result =true;
         }
         catch(Exception e){
-//    result=false;
+            e.printStackTrace();
+            System.out.println("Error from Cart Service"+e);
         }
         return s;
     }

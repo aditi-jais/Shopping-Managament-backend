@@ -4,16 +4,15 @@ import com.ShoppingManagement.InventoryService.Model.Seller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import com.ShoppingManagement.InventoryService.Repository.InventoryRepository;
 import com.ShoppingManagement.InventoryService.Model.Inventory;
 import org.springframework.web.reactive.function.client.WebClient;
-//import com.ShoppingManagement.InventoryService.Services;
 
 import java.util.*;
 
 
-@RestController
+@Service
 public class InventoryService {
     @Autowired
     InventoryRepository InvRepository;
@@ -72,7 +71,6 @@ public class InventoryService {
 
         if (_inv.isPresent()) {
             Inventory existingInv = _inv.get();
-//            existingInv.setSeller(inv.getSellerId());
             if(inv.getName()!=null)
                 existingInv.setName(inv.getName());
             if(inv.getAbout()!=null)

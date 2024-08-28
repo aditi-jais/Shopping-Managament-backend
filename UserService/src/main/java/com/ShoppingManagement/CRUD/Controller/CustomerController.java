@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.ShoppingManagement.CRUD.Model.Customer;
 import com.ShoppingManagement.CRUD.Service.CustomerService;
 
-//@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
 public class CustomerController {
 
